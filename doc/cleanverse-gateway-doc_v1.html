@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cleanverse Gateway API Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2c3e50;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --gray: #95a5a6;
+            --light-gray: #f8f9fa;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(to bottom, var(--secondary), var(--dark));
+            color: var(--light);
+            padding: 0;
+            overflow-y: auto;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sidebar-header p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .menu-section {
+            margin: 20px 0;
+        }
+
+        .menu-section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 20px;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active {
+            background-color: rgba(52, 152, 219, 0.2);
+            border-left: 4px solid var(--primary);
+            color: white;
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Content Styles */
+        .content {
+            flex: 1;
+            margin-left: 300px;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .content-header h1 {
+            font-size: 28px;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .content-header p {
+            color: var(--gray);
+            max-width: 800px;
+        }
+
+        .api-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            padding: 0;
+            display: none;
+            overflow: hidden;
+        }
+
+        .api-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .api-title {
+            display: flex;
+            align-items: center;
+            padding: 20px 25px;
+            background-color: var(--light-gray);
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .method-badge {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 15px;
+            color: white;
+        }
+
+        .method-post {
+            background-color: var(--success);
+        }
+
+        .endpoint {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--secondary);
+            font-family: monospace;
+        }
+
+        .api-description {
+            padding: 20px 25px;
+            line-height: 1.6;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 25px 0 15px;
+            color: var(--secondary);
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 25px;
+            line-height: 1.5;
+            border-left: 4px solid var(--primary);
+        }
+
+        .param-table {
+            width: calc(100% - 50px);
+            border-collapse: collapse;
+            margin: 15px 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .param-table th, .param-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .param-table th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .param-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .required {
+            color: var(--danger);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .optional {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        .response-title {
+            display: flex;
+            align-items: center;
+            margin: 20px 0 10px;
+            padding: 0 25px;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .status-success {
+            background-color: #c6f6d5;
+            color: #22543d;
+        }
+
+        .info-box {
+            background-color: #e1f0fa;
+            border-left: 4px solid var(--primary);
+            padding: 15px 20px;
+            margin: 20px 25px;
+            border-radius: 4px;
+        }
+
+        .info-box strong {
+            color: var(--primary-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: var(--gray);
+            font-size: 14px;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .note {
+            background-color: #fff9e6;
+            border-left: 4px solid var(--warning);
+            padding: 15px 20px;
+            margin: 20px 25px;
+            border-radius: 4px;
+        }
+        
+        .note strong {
+            color: var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Menu -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1><img alt="logo" width="184" height="30" decoding="async" data-nimg="1" class="w-32 object-cover" style="color:transparent" src="https://cleanverse.com/logo-with-text.svg"></h1>
+			<h1>Cleanverse Gateway API</h1>
+            <p>API Documentation</p>
+        </div>
+        
+        <div class="menu-section">
+            <div class="menu-section-title">Endpoints</div>
+            <div class="menu-item active" data-target="user-register">
+                <i class="fas fa-user-plus"></i> User Registration
+            </div>
+            <div class="menu-item" data-target="user-chain">
+                <i class="fas fa-link"></i> User Chain Query
+            </div>
+            <div class="menu-item" data-target="deposit-address">
+                <i class="fas fa-wallet"></i> Get Deposit Address
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <div class="menu-section-title">Information</div>
+            <div class="menu-item" data-target="authentication">
+                <i class="fas fa-key"></i> Authentication
+            </div>
+            <div class="menu-item" data-target="error-codes">
+                <i class="fas fa-message"></i> Error codes
+            </div>
+            <div class="menu-item" data-target="base-url">
+                <i class="fas fa-server"></i> Base URL & Environments
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="content-header">
+            <h1>Cleanverse Gateway API Documentation</h1>
+            <p>This documentation provides details about the Cleanverse Gateway API endpoints, including request formats, parameters, and response examples.</p>
+        </div>
+
+        <!-- User Registration API -->
+        <div class="api-section active" id="user-register">
+            <div class="api-title">
+                <span class="method-badge method-post">POST</span>
+                <span class="endpoint">/api/gateway/user_register</span>
+            </div>
+            
+            <p class="api-description">
+                This endpoint is used to register a new user. It requires user identity information, account details, and wallet information.
+            </p>
+            
+            <h3 class="section-title"><i class="fas fa-heading"></i> Request Headers</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Accept</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Must be set to "application/json"</td>
+                    </tr>
+                    <tr>
+                        <td>api-key</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>API key obtained from environment variables</td>
+                    </tr>
+                    <tr>
+                        <td>api-id</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>API ID obtained from environment variables</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 class="section-title"><i class="fas fa-code"></i> Request Body</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>fullName</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>User's full name</td>
+                    </tr>
+                    <tr>
+                        <td>idType</td>
+                        <td>Integer</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Identification type (1: ID Card;2: PASSPORT)</td>
+                    </tr>
+                    <tr>
+                        <td>idNumber</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Identification number</td>
+                    </tr>
+                    <tr>
+                        <td>validUntil</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>ID expiration date in format: YYYY-MM-DD</td>
+                    </tr>
+                    <tr>
+                        <td>countryISO2</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Country code (ISO2 format)</td>
+                    </tr>
+                    <tr>
+                        <td>accountNo</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Account number</td>
+                    </tr>
+                    <tr>
+                        <td>walletAddress</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Wallet address</td>
+                    </tr>
+                    <tr>
+                        <td>walletNetwork</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Wallet network (e.g., sol)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Request Example</h3>
+            <div class="code-block">
+{
+   "fullName": "test",
+   "idType": 1,
+   "idNumber": "1234567890",
+   "validUntil": "2033-10-18",
+   "countryISO2": "sg",
+   "accountNo": "12345567890",
+   "walletAddress": "3aNLPZC2Z5PgLRBgnwQuSgnBXgeDjM6pAhErQeS87x99",
+   "walletNetwork": "sol"
+}
+            </div>
+            
+            <h3 class="section-title"><i class="fas fa-reply"></i> Response</h3>
+            <div class="response-title">
+                <span class="status-badge status-success">200</span>
+                <span>Success</span>
+            </div>
+            <p style="padding: 0 25px;">Successful response will return the registration result.</p>
+        </div>
+
+        <!-- User Chain Query API -->
+        <div class="api-section" id="user-chain">
+            <div class="api-title">
+                <span class="method-badge method-post">POST</span>
+                <span class="endpoint">/api/gateway/user_chain</span>
+            </div>
+            
+            <p class="api-description">
+                This endpoint is used to query user chain information. It requires a wallet address, message in Base64 format, and user signature.
+            </p>
+            
+            <h3 class="section-title"><i class="fas fa-heading"></i> Request Headers</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Accept</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Must be set to "application/json"</td>
+                    </tr>
+                    <tr>
+                        <td>api-key</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>API key obtained from environment variables</td>
+                    </tr>
+                    <tr>
+                        <td>api-id</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>API ID obtained from environment variables</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 class="section-title"><i class="fas fa-code"></i> Request Body</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>walletAddress</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Wallet address</td>
+                    </tr>
+                    <tr>
+                        <td>messageBase64</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Message in Base64 encoded format</td>
+                    </tr>
+                    <tr>
+                        <td>userSignature</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>User's signature for verification</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Request Example</h3>
+            <div class="code-block">
+{
+   "walletAddress": "5xLecWmgfLUQJth8J4SfuWziHdoYJykeCo1TL1kUQ9gh",
+   "messageBase64": "AwEDB9QVyqFFIANWsNqXowV1uDlsafZKpdpypW6KEZWJfrdfSZvoqHf+d1BPTdWTSymxyhqHzYzU/FuoHhQHGDY/D8ZhCH8HlOsqtJjcQRgq98bgukTB7E8lDdlQ4V3xsJlZMimPzR9Ib8L/mQZecQFNmly4iWdCnDy06c2UfNaPBtncE7dSwk/m6CErjnZ8owzQQN3921sHNM5ROHopqaB+9N4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJHpyQhLuJpJB+R+9bGs7BVW2i612UdgcX+RP7qe3ir7Hn4MVo2u0pQl79WIKeXRpK1U+acR12l688Y5+CuBZigBBgUBAgMEBTnpF2TS25NPyQF7BQAAAAAAAMsnx3sAAAAA2lQEChJ0Jcn+ZtM+328JG3mVU8kseKD0HjODCGZC1Wk=",
+   "userSignature": "hlLeErQTSV3beWq4l2FHh17Fu+rS8KVIiyZNOqpLglqTFFyd+GKeLlONlbRlKLwh4gKXcNt7P62gAyZbj8bGBA=="
+}
+            </div>
+            
+            <h3 class="section-title"><i class="fas fa-reply"></i> Response</h3>
+            <div class="response-title">
+                <span class="status-badge status-success">200</span>
+                <span>Success</span>
+            </div>
+            <p style="padding: 0 25px;">Successful response will return user chain related information.</p>
+            
+            <div class="note">
+                <strong>Note:</strong> The messageBase64 and userSignature parameters are required for signature verification and authentication purposes.
+            </div>
+        </div>
+
+        <!-- Get Deposit Address API -->
+        <div class="api-section" id="deposit-address">
+            <div class="api-title">
+                <span class="method-badge method-post">POST</span>
+                <span class="endpoint">/api/gateway/get_deposit_address</span>
+            </div>
+            
+            <p class="api-description">
+                This endpoint is used to retrieve deposit addresses for specified wallets and networks.
+            </p>
+            
+            <h3 class="section-title"><i class="fas fa-heading"></i> Request Headers</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Accept</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Must be set to "application/json"</td>
+                    </tr>
+                    <tr>
+                        <td>api-key</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>API key obtained from environment variables</td>
+                    </tr>
+                    <tr>
+                        <td>api-id</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>API ID obtained from environment variables</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 class="section-title"><i class="fas fa-code"></i> Request Body</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>wallets</td>
+                        <td>Array</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Array of wallet objects</td>
+                    </tr>
+                    <tr>
+                        <td>wallets[].walletAddress</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Wallet address</td>
+                    </tr>
+                    <tr>
+                        <td>wallets[].network</td>
+                        <td>String</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>Blockchain network (e.g., solana)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Request Example</h3>
+            <div class="code-block">
+{
+    "wallets": [
+        {
+            "walletAddress": "8eEjtKzJbpDoeww1sXHADh4gHWjmfj6iYVbDm2k5y3Fx",
+            "network": "solana"
+        }
+    ]
+}
+            </div>
+            
+            <h3 class="section-title"><i class="fas fa-reply"></i> Response</h3>
+            <div class="response-title">
+                <span class="status-badge status-success">200</span>
+                <span>Success</span>
+            </div>
+            <p style="padding: 0 25px;">Successful response will return deposit address information for the specified wallets.</p>
+        </div>
+
+        <!-- Authentication Information -->
+        <div class="api-section" id="authentication">
+            <div class="api-title">
+                <span class="method-badge method-post"><i class="fas fa-key"></i></span>
+                <span class="endpoint">Authentication</span>
+            </div>
+            
+            <p class="api-description">
+                All API requests require authentication using "api-key" and "api-id" provided in the request headers.
+            </p>
+            
+            <div class="info-box">
+                <strong>Note:</strong> The "api-key" and "api-id" should be kept secure and not exposed in client-side code.
+            </div>
+            
+            <h3 class="section-title"><i class="fas fa-heading"></i> Required Headers</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Header</th>
+                        <th>Description</th>
+                        <th>Required</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Accept</td>
+                        <td>application/json</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>application/json</td>
+                    </tr>
+                    <tr>
+                        <td>api-key</td>
+                        <td>Your unique API key for authentication</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>409ZvwsL4vSYwWdVTYOTF6TzoBfxCe1h</td>
+                    </tr>
+                    <tr>
+                        <td>api-id</td>
+                        <td>Your API identifier</td>
+                        <td><span class="required">Yes</span></td>
+                        <td>APP20251015152622BQH4L3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+		
+		
+
+        <!-- Error Codes Information -->
+        <div class="api-section" id="error-codes">
+            <div class="api-title">
+                <span class="method-badge method-post"><i class="fas fa-message"></i></span>
+                <span class="endpoint">Error Codes</span>
+            </div>
+            
+            <h3 class="section-title"><i class="fas fa-heading"></i> Error codes</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>http status</th>
+                        <th>code</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>403</td>
+                        <td>-</td>
+                        <td>1、Forbidden.Please check your api-id and api-key.It means the header "api-id" or "api-key" is missing.<br>
+							2、Forbidden.Authorization verification failed.It means that "api-id" or "api-key" is incorrect
+						</td>
+                    </tr>
+                    <tr>
+                        <td>200</td>
+                        <td>0000</td>
+                        <td>succeess</td>
+                    </tr>
+                    <tr>
+                        <td>200</td>
+                        <td>0001</td>
+                        <td>The parameter is incorrect. Please check the parameter. </td>
+                    </tr>
+                    <tr>
+                        <td>200</td>
+                        <td>0002</td>
+                        <td>Failure. Please contact the support staff.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Base URL Information -->
+        <div class="api-section" id="base-url">
+            <div class="api-title">
+                <span class="method-badge method-post"><i class="fas fa-server"></i></span>
+                <span class="endpoint">Base URL & Environments</span>
+            </div>
+            
+            <p class="api-description">
+                The API base URL varies depending on the environment you're working with.
+            </p>
+            
+            <h3 class="section-title"><i class="fas fa-globe"></i> Environments</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Environment</th>
+                        <th>Base URL</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sandbox</td>
+                        <td>http://uatapi.cleanverse.com:9293</td>
+                        <td>Testing and development</td>
+                    </tr>
+                    <tr>
+                        <td>Production</td>
+                        <td>http://api.cleanverse.com</td>
+                        <td>Live production environment</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="info-box">
+                <strong>Postman Users:</strong> You can use the Postman environment variables to switch between environments easily. Set the "url" variable to the appropriate base URL.
+            </div>
+			
+        </div>
+
+        <div class="footer">
+            <p>Cleanverse Gateway API Documentation &copy; 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Menu navigation functionality
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all menu items and sections
+                document.querySelectorAll('.menu-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                document.querySelectorAll('.api-section').forEach(s => {
+                    s.classList.remove('active');
+                });
+                
+                // Add active class to clicked menu item and corresponding section
+                this.classList.add('active');
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+                
+                // Scroll to top of content
+                document.querySelector('.content').scrollTop = 0;
+            });
+        });
+    </script>
+</body>
+</html>

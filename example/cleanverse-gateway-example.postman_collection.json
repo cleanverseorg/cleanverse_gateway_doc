@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "a6276694-c644-4ebd-ab98-2426fadfc5df",
+		"name": "cleanverse-gateway-example",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43069489",
+		"_collection_link": "https://bold-escape-160561.postman.co/workspace/My-Workspace~cb6db8ec-d6a6-4a9d-8535-9d9faef3515d/collection/43069489-a6276694-c644-4ebd-ab98-2426fadfc5df?action=share&source=collection_link&creator=43069489"
+	},
+	"item": [
+		{
+			"name": "gateway-user-register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api-key}}",
+						"type": "text"
+					},
+					{
+						"key": "api-id",
+						"value": "{{api-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"fullName\":\"test\",\r\n   \"idType\":1,\r\n   \"idNumber\":\"1234567890\" ,\r\n   \"validUntil\":\"2033-10-18\",\r\n   \"countryISO2\":\"sg\" ,\r\n   \"accountNo\":\"12345567890\" ,\r\n   \"walletAddress\":\"3aNLPZC2Z5PgLRBgnwQuSgnBXgeDjM6pAhErQeS87x99\" ,\r\n   \"walletNetwork\":\"sol\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/gateway/user_register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"gateway",
+						"user_register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gateway-user-chain",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api-key}}",
+						"type": "text"
+					},
+					{
+						"key": "api-id",
+						"value": "{{api-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"walletAddress\":\"5xLecWmgfLUQJth8J4SfuWziHdoYJykeCo1TL1kUQ9gh\",\r\n   \"messageBase64\":\"AwEDB9QVyqFFIANWsNqXowV1uDlsafZKpdpypW6KEZWJfrdfSZvoqHf+d1BPTdWTSymxyhqHzYzU/FuoHhQHGDY/D8ZhCH8HlOsqtJjcQRgq98bgukTB7E8lDdlQ4V3xsJlZMimPzR9Ib8L/mQZecQFNmly4iWdCnDy06c2UfNaPBtncE7dSwk/m6CErjnZ8owzQQN3921sHNM5ROHopqaB+9N4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJHpyQhLuJpJB+R+9bGs7BVW2i612UdgcX+RP7qe3ir7Hn4MVo2u0pQl79WIKeXRpK1U+acR12l688Y5+CuBZigBBgUBAgMEBTnpF2TS25NPyQF7BQAAAAAAAMsnx3sAAAAA2lQEChJ0Jcn+ZtM+328JG3mVU8kseKD0HjODCGZC1Wk=\",\r\n   \"userSignature\":\"hlLeErQTSV3beWq4l2FHh17Fu+rS8KVIiyZNOqpLglqTFFyd+GKeLlONlbRlKLwh4gKXcNt7P62gAyZbj8bGBA==\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/gateway/user_chain",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"gateway",
+						"user_chain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gateway-get-deposit-address",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api-key}}",
+						"type": "text"
+					},
+					{
+						"key": "api-id",
+						"value": "{{api-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"wallets\":[\r\n        {\r\n        \"walletAddress\":\"8eEjtKzJbpDoeww1sXHADh4gHWjmfj6iYVbDm2k5y3Fx\",\r\n        \"network\":\"solana\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/gateway/get_deposit_address",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"gateway",
+						"get_deposit_address"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
