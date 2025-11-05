@@ -138,6 +138,76 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "gateway-build-withdraw",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api-key}}",
+						"type": "text"
+					},
+					{
+						"key": "api-id",
+						"value": "{{api-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/gateway/build_withdraw",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"gateway",
+						"build_withdraw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gateway-submit-withdraw",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api-key}}",
+						"type": "text"
+					},
+					{
+						"key": "api-id",
+						"value": "{{api-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/gateway/submit_withdraw",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"gateway",
+						"submit_withdraw"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

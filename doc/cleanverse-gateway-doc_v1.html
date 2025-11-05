@@ -346,6 +346,12 @@
             <div class="menu-item" data-target="deposit-address">
                 <i class="fas fa-wallet"></i> Get Deposit Address
             </div>
+            <div class="menu-item" data-target="build-withdraw">
+                <i class="fas fa-building"></i> build withdraw
+            </div>
+            <div class="menu-item" data-target="submit-withdraw">
+                <i class="fas fa-handshake"></i> submit withdraw
+            </div>
         </div>
         
         <div class="menu-section">
@@ -682,6 +688,185 @@
             </pre>
             </div>
             
+            <h3 class="section-title"><i class="fas fa-reply"></i> Response</h3>
+            <div class="response-title">
+                <span class="status-badge status-success">200</span>
+                <span>Success</span>
+            </div>
+            <p style="padding: 0 25px;">Successful response will return deposit address information for the specified wallets.</p>
+        </div>
+
+        <!-- build withdraw API -->
+        <div class="api-section" id="build-withdraw">
+            <div class="api-title">
+                <span class="method-badge method-post">POST</span>
+                <span class="endpoint">/api/gateway/build_withdraw</span>
+            </div>
+
+            <p class="api-description">
+                This endpoint is used to build a withdrawal transaction. It prepares the withdrawal request for submission.
+            </p>
+
+            <h3 class="section-title"><i class="fas fa-heading"></i> Request Headers</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Accept</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Must be set to "application/json"</td>
+                </tr>
+                <tr>
+                    <td>api-key</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>API key obtained from environment variables</td>
+                </tr>
+                <tr>
+                    <td>api-id</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>API ID obtained from environment variables</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-code"></i> Request Body</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>userPublicKey</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>User public key address</td>
+                </tr>
+                <tr>
+                    <td>amount</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Withdrawal amount</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Request Example</h3>
+            <div class="code-block"><pre>
+{
+  "userPublicKey": "6wT4QwM3it2m4vso7W8M1t2c23Pq3msqYxVqE2JjQhHh",
+  "amount": 1000000
+}
+            </pre>
+            </div>
+
+            <h3 class="section-title"><i class="fas fa-reply"></i> Response</h3>
+            <div class="response-title">
+                <span class="status-badge status-success">200</span>
+                <span>Success</span>
+            </div>
+            <p style="padding: 0 25px;">Successful response will return deposit address information for the specified wallets.</p>
+        </div>
+
+        <!-- submit_withdrawAPI -->
+        <div class="api-section" id="submit-withdraw">
+            <div class="api-title">
+                <span class="method-badge method-post">POST</span>
+                <span class="endpoint">/api/gateway/submit_withdraw</span>
+            </div>
+
+            <p class="api-description">
+                This endpoint is used to submit a previously built withdrawal transaction for processing.
+            </p>
+
+            <h3 class="section-title"><i class="fas fa-heading"></i> Request Headers</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Accept</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Must be set to "application/json"</td>
+                </tr>
+                <tr>
+                    <td>api-key</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>API key obtained from environment variables</td>
+                </tr>
+                <tr>
+                    <td>api-id</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>API ID obtained from environment variables</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-code"></i> Request Body</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>userPublicKey</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>User public key address</td>
+                </tr>
+                <tr>
+                    <td>messageBase64</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Messages encoded in Base64</td>
+                </tr>
+                <tr>
+                    <td>userSignatureBase64</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>The user's Base64-encoded signature (64 bytes)</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Request Example</h3>
+            <div class="code-block"><pre>
+{
+  "userPublicKey": "6wT4QwM3it2m4vso7W8M1t2c23Pq3msqYxVqE2JjQhHh",
+  "messageBase64": "AQIDBAUGBwgJ...",
+  "userSignatureBase64": "BASE64_64_BYTE_SIGNATURE"
+}
+            </pre>
+            </div>
+
             <h3 class="section-title"><i class="fas fa-reply"></i> Response</h3>
             <div class="response-title">
                 <span class="status-badge status-success">200</span>
