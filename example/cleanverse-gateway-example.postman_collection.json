@@ -208,6 +208,41 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "gateway-add-blacklist",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api-key}}",
+						"type": "text"
+					},
+					{
+						"key": "api-id",
+						"value": "{{api-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/gateway/add_black",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"gateway",
+						"add_black"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
