@@ -352,6 +352,9 @@
             <div class="menu-item" data-target="submit-withdraw">
                 <i class="fas fa-handshake"></i> submit withdraw
             </div>
+            <div class="menu-item" data-target="add-blacklist">
+                <i class="fas fa-frown"></i> add-blacklist
+            </div>
         </div>
         
         <div class="menu-section">
@@ -751,10 +754,28 @@
                 </thead>
                 <tbody>
                 <tr>
+                    <td>chain</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Chain type: solana or base</td>
+                </tr>
+                <tr>
                     <td>userPublicKey</td>
                     <td>String</td>
                     <td><span class="required">Yes</span></td>
                     <td>User public key address</td>
+                </tr>
+                <tr>
+                    <td>atoken</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Token type (required for Base), eg:ausdc</td>
+                </tr>
+                <tr>
+                    <td>recipient</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Receiving address (required for Base), eg:0xabcdefabcdefabcdefabcdefabcdefabcdefabcd</td>
                 </tr>
                 <tr>
                     <td>amount</td>
@@ -768,7 +789,10 @@
             <h3 class="section-title"><i class="fas fa-file-code"></i> Request Example</h3>
             <div class="code-block"><pre>
 {
+  "chain": "solana",
   "userPublicKey": "6wT4QwM3it2m4vso7W8M1t2c23Pq3msqYxVqE2JjQhHh",
+  "atoken": "ausdc",
+  "recipient": "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd",
   "amount": 1000000
 }
             </pre>
@@ -779,7 +803,6 @@
                 <span class="status-badge status-success">200</span>
                 <span>Success</span>
             </div>
-            <p style="padding: 0 25px;">Successful response will return deposit address information for the specified wallets.</p>
         </div>
 
         <!-- submit_withdrawAPI -->
@@ -837,6 +860,12 @@
                 </thead>
                 <tbody>
                 <tr>
+                    <td>chain</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Chain type: solana or base</td>
+                </tr>
+                <tr>
                     <td>userPublicKey</td>
                     <td>String</td>
                     <td><span class="required">Yes</span></td>
@@ -854,15 +883,23 @@
                     <td><span class="required">Yes</span></td>
                     <td>The user's Base64-encoded signature (64 bytes)</td>
                 </tr>
+                <tr>
+                    <td>rawTxHex</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Hex encoded signed transactions (required for Base),eg:0xf86a80843b9aca00830d6e2b94aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa80b844...signature...</td>
+                </tr>
                 </tbody>
             </table>
 
             <h3 class="section-title"><i class="fas fa-file-code"></i> Request Example</h3>
             <div class="code-block"><pre>
 {
+  "chain": "solana",
   "userPublicKey": "6wT4QwM3it2m4vso7W8M1t2c23Pq3msqYxVqE2JjQhHh",
   "messageBase64": "AQIDBAUGBwgJ...",
-  "userSignatureBase64": "BASE64_64_BYTE_SIGNATURE"
+  "userSignatureBase64": "BASE64_64_BYTE_SIGNATURE",
+  "rawTxHex": "0xf86a80843b9aca00830d6e2b94aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa80b844...signature..."
 }
             </pre>
             </div>
@@ -872,7 +909,112 @@
                 <span class="status-badge status-success">200</span>
                 <span>Success</span>
             </div>
-            <p style="padding: 0 25px;">Successful response will return deposit address information for the specified wallets.</p>
+        </div>
+
+        <!-- add blacklistAPI -->
+        <div class="api-section" id="add-blacklist">
+            <div class="api-title">
+                <span class="method-badge method-post">POST</span>
+                <span class="endpoint">/api/gateway/add_blacklist</span>
+            </div>
+
+            <p class="api-description">
+                This endpoint is used to submit a previously built withdrawal transaction for processing.
+            </p>
+
+            <h3 class="section-title"><i class="fas fa-heading"></i> Request Headers</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Accept</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Must be set to "application/json"</td>
+                </tr>
+                <tr>
+                    <td>api-key</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>API key obtained from environment variables</td>
+                </tr>
+                <tr>
+                    <td>api-id</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>API ID obtained from environment variables</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-code"></i> Request Body</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>name</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>name</td>
+                </tr>
+                <tr>
+                    <td>idType</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>id type</td>
+                </tr>
+                <tr>
+                    <td>idNumber</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>id number</td>
+                </tr>
+                <tr>
+                    <td>sourceOrg</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>Add blacklisted institutions</td>
+                </tr>
+                <tr>
+                    <td>blacklistReason</td>
+                    <td>String</td>
+                    <td><span class="required">Yes</span></td>
+                    <td>the reason of black</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Request Example</h3>
+            <div class="code-block"><pre>
+{
+  "name": "san.zhang",
+  "idNumber": "110101199001011234",
+  "idType": "ID_CARD",
+  "sourceOrg": "XX bank",
+  "blacklistReason": "risk customer"
+}
+            </pre>
+            </div>
+
+            <h3 class="section-title"><i class="fas fa-reply"></i> Response</h3>
+            <div class="response-title">
+                <span class="status-badge status-success">200</span>
+                <span>Success</span>
+            </div>
         </div>
 
         <!-- Authentication Information -->
