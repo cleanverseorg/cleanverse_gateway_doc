@@ -341,19 +341,19 @@
                 <i class="fas fa-user-plus"></i> User Registration
             </div>
             <div class="menu-item" data-target="user-chain">
-                <i class="fas fa-link"></i> User Chain Query
+                <i class="fas fa-link"></i> Submit User`s APass
             </div>
             <div class="menu-item" data-target="deposit-address">
                 <i class="fas fa-wallet"></i> Get Deposit Address
             </div>
             <div class="menu-item" data-target="build-withdraw">
-                <i class="fas fa-building"></i> build withdraw
+                <i class="fas fa-building"></i> Build withdraw
             </div>
             <div class="menu-item" data-target="submit-withdraw">
-                <i class="fas fa-handshake"></i> submit withdraw
+                <i class="fas fa-handshake"></i> Submit withdraw
             </div>
             <div class="menu-item" data-target="add-blacklist">
-                <i class="fas fa-frown"></i> add-blacklist
+                <i class="fas fa-frown"></i> Add-blacklist
             </div>
         </div>
         
@@ -503,7 +503,80 @@
                 <span class="status-badge status-success">200</span>
                 <span>Success</span>
             </div>
-            <p style="padding: 0 25px;">Successful response will return the registration result.</p>
+
+            <h3 class="section-title"><i class="fas fa-code"></i> Response Body</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>userId</td>
+                    <td>int</td>
+                    <td>User ID</td>
+                </tr>
+                <tr>
+                    <td>walletAddress</td>
+                    <td>string</td>
+                    <td>Wallet address</td>
+                </tr>
+                <tr>
+                    <td>totalScore</td>
+                    <td>int</td>
+                    <td>Total score</td>
+                </tr>
+                <tr>
+                    <td>tier</td>
+                    <td>String</td>
+                    <td>tier</td>
+                </tr>
+                <tr>
+                    <td>ratingCombination</td>
+                    <td>String</td>
+                    <td>Rating combinations</td>
+                </tr>
+                <tr>
+                    <td>displayRating</td>
+                    <td>String</td>
+                    <td>Display rating</td>
+                </tr>
+                <tr>
+                    <td>messageBase64</td>
+                    <td>String</td>
+                    <td>Base64 encoded message to be signed</td>
+                </tr>
+                <tr>
+                    <td>status</td>
+                    <td>String</td>
+                    <td>Registration status: success/fail</td>
+                </tr>
+                <tr>
+                    <td>message</td>
+                    <td>String</td>
+                    <td>Tip information</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Response Example</h3>
+            <div class="code-block"> <pre>
+{
+	"userId": 0,
+	"walletAddress": "",
+	"totalScore": 0,
+	"tier": "",
+	"ratingCombination": "",
+	"displayRating": "",
+	"messageBase64": "",
+	"status": "",
+	"message": ""
+}
+                </pre>
+            </div>
         </div>
 
         <!-- User Chain Query API -->
@@ -514,7 +587,7 @@
             </div>
             
             <p class="api-description">
-                This endpoint is used to query user chain information. It requires a wallet address, message in Base64 format, and user signature.
+                This endpoint is used to submit user's APass information to the blockchain.
             </p>
             
             <h3 class="section-title"><i class="fas fa-heading"></i> Request Headers</h3>
@@ -596,10 +669,54 @@
                 <span class="status-badge status-success">200</span>
                 <span>Success</span>
             </div>
-            <p style="padding: 0 25px;">Successful response will return user chain related information.</p>
-            
-            <div class="note">
-                <strong>Note:</strong> The messageBase64 and userSignature parameters are required for signature verification and authentication purposes.
+            <h3 class="section-title"><i class="fas fa-code"></i> Response Body</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>transactionSignature</td>
+                    <td>string</td>
+                    <td>Transaction signatures</td>
+                </tr>
+                <tr>
+                    <td>depositAddress</td>
+                    <td>string</td>
+                    <td>Deposit address</td>
+                </tr>
+                <tr>
+                    <td>walletAddress</td>
+                    <td>string</td>
+                    <td>Wallet address</td>
+                </tr>
+                <tr>
+                    <td>status</td>
+                    <td>String</td>
+                    <td>Registration status: success/fail</td>
+                </tr>
+                <tr>
+                    <td>message</td>
+                    <td>String</td>
+                    <td>Tip information</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Response Example</h3>
+            <div class="code-block"> <pre>
+{
+	"transactionSignature": "",
+	"depositAddress": "",
+	"walletAddress": "",
+	"status": "",
+	"message": ""
+}
+                </pre>
             </div>
         </div>
 
@@ -696,7 +813,52 @@
                 <span class="status-badge status-success">200</span>
                 <span>Success</span>
             </div>
-            <p style="padding: 0 25px;">Successful response will return deposit address information for the specified wallets.</p>
+            <h3 class="section-title"><i class="fas fa-code"></i> Response Body</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>wallets</td>
+                    <td>Array</td>
+                    <td>Array of objects</td>
+                </tr>
+                <tr>
+                    <td>wallets[].depositAddress</td>
+                    <td>String</td>
+                    <td>Recharge address</td>
+                </tr>
+                <tr>
+                    <td>wallets[].walletAddress</td>
+                    <td>String</td>
+                    <td>Wallet address</td>
+                </tr>
+                <tr>
+                    <td>wallets[].network</td>
+                    <td>String</td>
+                    <td>Network type</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Response Example</h3>
+            <div class="code-block"> <pre>
+{
+	"depositAddressList": [
+		{
+			"depositAddress": "",
+			"walletAddress": "",
+			"network": ""
+		}
+	]
+}
+                </pre>
+            </div>
         </div>
 
         <!-- build withdraw API -->
@@ -802,6 +964,37 @@
             <div class="response-title">
                 <span class="status-badge status-success">200</span>
                 <span>Success</span>
+            </div>
+            <h3 class="section-title"><i class="fas fa-code"></i> Response Body</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>messageBase64</td>
+                    <td>String</td>
+                    <td>Base64 encoded messages (used by Solana)</td>
+                </tr>
+                <tr>
+                    <td>unsignedRawTx</td>
+                    <td>String</td>
+                    <td>Hex-encoded unsigned transactions (used by Base)</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Response Example</h3>
+            <div class="code-block"> <pre>
+{
+	"messageBase64": "AQIDBAUGBwgJ...",
+	"unsignedRawTx": "0xHexEncodedUnsignedTx"
+}
+                </pre>
             </div>
         </div>
 
@@ -909,6 +1102,32 @@
                 <span class="status-badge status-success">200</span>
                 <span>Success</span>
             </div>
+
+            <h3 class="section-title"><i class="fas fa-code"></i> Response Body</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>transactionSignature</td>
+                    <td>String</td>
+                    <td>Solana transaction signatures</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Response Example</h3>
+            <div class="code-block"> <pre>
+{
+	"transactionSignature": "5X3m8yq7KQwY...uE4nT6J1cGxJ"
+}
+                </pre>
+            </div>
         </div>
 
         <!-- add blacklistAPI -->
@@ -919,7 +1138,7 @@
             </div>
 
             <p class="api-description">
-                This endpoint is used to submit a previously built withdrawal transaction for processing.
+                This endpoint is for institutions to add or update user to black.
             </p>
 
             <h3 class="section-title"><i class="fas fa-heading"></i> Request Headers</h3>
@@ -1014,6 +1233,50 @@
             <div class="response-title">
                 <span class="status-badge status-success">200</span>
                 <span>Success</span>
+            </div>
+
+            <h3 class="section-title"><i class="fas fa-code"></i> Response Body</h3>
+            <table class="param-table">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>operationType</td>
+                    <td>String</td>
+                    <td>Operation type: created-new, updated-update</td>
+                </tr>
+                <tr>
+                    <td>blacklistId</td>
+                    <td>int</td>
+                    <td>Blacklist ID</td>
+                </tr>
+                <tr>
+                    <td>status</td>
+                    <td>String</td>
+                    <td>Status: success/fail</td>
+                </tr>
+                <tr>
+                    <td>message</td>
+                    <td>String</td>
+                    <td>Tip information</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-title"><i class="fas fa-file-code"></i> Response Example</h3>
+            <div class="code-block"> <pre>
+{
+	"operationType": "",
+	"blacklistId": 0,
+	"status": "",
+	"message": ""
+}
+                </pre>
             </div>
         </div>
 
